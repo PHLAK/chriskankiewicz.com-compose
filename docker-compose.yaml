@@ -8,7 +8,7 @@ services:
       REDIS_HOST: cache
       REDIS_PORT: 6379
     ports:
-      - ${APP_PORT:-8080}:80
+      - ${APP_PORT:-127.0.0.1:6775}:80
     volumes:
       - ${FILE_CACHE_VOLUME:-file-cache}:/var/www/html/cache/app
       - /etc/localtime:/etc/localtime:ro
