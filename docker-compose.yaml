@@ -1,7 +1,7 @@
 services:
 
   app:
-    image: phlak/chriskankiewciz.com:${IMAGE_VERSION:-latest}
+    image: phlak/chriskankiewicz.com:${IMAGE_VERSION:-latest}
     env_file: environment.d/chriskankiewicz.com.env
     environment:
       CACHE_DRIVER: valkey
