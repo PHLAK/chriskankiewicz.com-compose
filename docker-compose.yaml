@@ -11,7 +11,7 @@ services:
       - ${APP_PORT:-127.0.0.1:6775}:80
     volumes:
       - ${FILE_CACHE_VOLUME:-file-cache}:/var/www/html/cache/app
-      - ${CUSTOMIZATIONS_FILE:-/dev/null}:/customizations.html:ro
+      - ${CUSTOMIZATIONS_FILE:-/dev/null}:/var/www/html/customizations.html:ro
       - /etc/localtime:/etc/localtime:ro
     depends_on: [cache]
     restart: unless-stopped
