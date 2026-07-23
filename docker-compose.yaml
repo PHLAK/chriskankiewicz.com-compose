@@ -1,0 +1,39 @@
+services:
+
+  app:
+    image: phlak/chriskankiewciz.com:${IMAGE_VERSION:-latest}
+    env_file: environment.d/chriskankiewicz.com.env
+    environment:
+      CACHE_DRIVER: valkey
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+    ports:
+      - ${APP_PORT:-8080}:80
+    volumes:
+      - ${FILE_CACHE_VOLUME:-file-cache}:/var/www/html/cache/app
+      - /etc/localtime:/etc/localtime:ro
+    depends_on: [cache]
+    restart: unless-stopped
+
+  cache:
+    image: valkey/valkey:${VALKEY_VERSION:-9}
+    volumes:
+      - ${CACHE_VOLUME:-valkey-data}:/data
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+
+  watchtower:
+    image: nickfedor/watchtower:${WATCHTOWER_VERSION:-latest}
+    env_file: environment.d/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ${DOCKER_SOCKET:-/var/run/docker.sock}:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+volumes:
+  file-cache: {}
+  valkey-data: {}
